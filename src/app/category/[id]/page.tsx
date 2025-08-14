@@ -1,14 +1,16 @@
+
 import { products } from '@/data/products';
 import { categories } from '@/data/categories';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-interface Props {
-  params: { id: string };
+interface Params {
+  id: string;
 }
 
-export default function CategoryDetailPage({ params }: Props) {
+
+export default function CategoryDetailPage({ params }: { params: { id: string } }) {
   const category = categories.find((c) => c.id === params.id);
   if (!category) return notFound();
   const filtered = products.filter((p) => p.category === category.id);
