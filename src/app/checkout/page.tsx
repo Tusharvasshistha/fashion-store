@@ -1,7 +1,13 @@
+// src/app/checkout/page.tsx
 "use client";
 import { useCart } from '@/context/CartContext';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+function formatINR(value: number) {
+  return value.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+}
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -18,7 +24,9 @@ export default function CheckoutPage() {
       <div className="max-w-xl mx-auto py-12 px-4 text-center">
         <h1 className="text-3xl font-bold mb-4">Thank you for your order!</h1>
         <p className="mb-6">Your order has been placed. We will contact you soon via WhatsApp.</p>
-        <Link href="/" className="bg-pink-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-pink-700 transition">Back to Home</Link>
+        <Link href="/" className="bg-pink-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-pink-700 transition">
+          Back to Home
+        </Link>
       </div>
     );
   }
@@ -33,17 +41,33 @@ export default function CheckoutPage() {
           <ul className="divide-y divide-gray-200 mb-6">
             {cart.map((item) => (
               <li key={item.id} className="flex items-center gap-4 py-4">
-                <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                <div className="relative h-16 w-16 overflow-hidden rounded">
+                  <Image
+                    src={item.image || '/images/placeholder.png'}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                    priority={false}
+                  />
+                </div>
                 <div className="flex-1">
                   <div className="font-semibold">{item.name}</div>
                   <div className="text-sm text-gray-500">Qty: {item.quantity}</div>
                 </div>
-                <div className="font-bold text-pink-600">₹{item.price * item.quantity}</div>
+                <div className="font-bold text-pink-600">
+                  {formatINR(item.price * item.quantity)}
+                </div>
               </li>
             ))}
           </ul>
-          <div className="font-bold text-lg mb-6">Total: ₹{total}</div>
-          <button onClick={handleCheckout} className="bg-pink-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-pink-700 transition w-full">Place Order</button>
+          <div className="font-bold text-lg mb-6">Total: {formatINR(total)}</div>
+          <button
+            onClick={handleCheckout}
+            className="bg-pink-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-pink-700 transition w-full"
+          >
+            Place Order
+          </button>
         </>
       )}
     </div>
