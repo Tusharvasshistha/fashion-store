@@ -1,13 +1,11 @@
-
 import { categories } from '@/data/categories';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Home() {
+export default function CategoriesPage() {
   return (
-    <div className="max-w-5xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-4 text-center">Welcome to Fashion Store</h1>
-      <p className="text-center text-lg mb-10 text-gray-600">Discover the latest trends in women’s fashion. Shop by category below!</p>
+    <div className="max-w-5xl mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-8 text-center">Shop by Category</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {categories.map((cat) => (
           <Link key={cat.id} href={`/category/${cat.id}`} className="block rounded-lg shadow hover:shadow-lg transition bg-white">
